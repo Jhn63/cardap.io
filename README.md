@@ -1,2 +1,2 @@
 # cardap.io
-Gerenciador de restaurante
+Gerenciador de Food Service
