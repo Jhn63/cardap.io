@@ -1,11 +1,14 @@
 package client.hall;
 
-import client.tools.Product;
-
+import client.Protocol;
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.Random;
 import java.util.Scanner;
+
+
 
 /**
  * Prototipo de cliente (app garçom)
@@ -13,25 +16,25 @@ import java.util.Scanner;
  */
 public class ClientPrototype {
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException {
         Socket socket = new Socket("localhost", 4444);
 
-        Scanner scanner = new Scanner(System.in);
+        Scanner scan = new Scanner(System.in);
         ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
         DataOutputStream out = new DataOutputStream(socket.getOutputStream());
 
-        String msg = " ";
-        while(!(msg.equals("close"))) {
-            msg = scanner.nextLine();
-            out.writeUTF(msg);
+        Random r = new Random();
+        r.setSeed(System.currentTimeMillis());
 
-            try {
-                //deserializando objeto
-                Product product = (Product) in.readObject();
-                System.out.println(product.getName());
-            } catch (Exception ignored) { }
+        for (int i = 0; i < 1000; i++)
+        {
+            out.writeUTF(String.format("%d,%d", Protocol.OPEN_TABLE, new Random(System.currentTimeMillis())));
+            System.out.println(in.readUTF());
         }
 
+        String msg = " ";
+        
+        scan.close();
         in.close();
         out.close();
         socket.close();
