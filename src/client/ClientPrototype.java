@@ -1,11 +1,11 @@
-package mobile;
-
-import tools.Product;
+package client;
 
 import java.io.DataOutputStream;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 import java.util.Scanner;
+import tools.Product;
+
 
 /**
  * Prototipo de cliente (app garçom)
