@@ -1,4 +1,7 @@
 {
     "java.project.outputPath": "out",
-    "java.project.sourcePaths": ["src"]
+    "java.project.sourcePaths": [
+        "src"
+    ],
+    "java.dependency.packagePresentation": "flat"
 }
