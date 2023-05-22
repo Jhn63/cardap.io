@@ -31,8 +31,6 @@ public class ClientPrototype {
             out.writeUTF(String.format("%d,%d", Protocol.OPEN_TABLE, new Random(System.currentTimeMillis())));
             System.out.println(in.readUTF());
         }
-
-        String msg = " ";
         
         scan.close();
         in.close();
