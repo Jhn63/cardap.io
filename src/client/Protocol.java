@@ -1,7 +1,9 @@
 package client;
 
 public interface Protocol {
-    public static final int OPEN_TABLE = 100;
-    public static final int CLOSE_TABLE = 101;
-    public static final int SEARCH_TABLE = 102;
+    public static final String OPEN_TABLE = "open";
+    public static final String CLOSE_TABLE = "close";
+    public static final String SEARCH_TABLE = "search";
+    public static final String LAUNCH_PRODUCT = "launch";
+    public static final String CANCEL_PRODUCT = "cancel";
 }

@@ -17,7 +17,7 @@ public class DataBase {
     public DataBase() {
         tableMap = new HashMap<>();
         productMap = new TreeMap<>();
-        try { loadDataProduct(); } catch (Exception e) {System.out.println("erro"); }
+        try { loadDataProduct(); } catch (Exception e) {System.out.println("deu ruim no banco de dados"); }
     }
 
     /* Carrega os dados dos produtos armazenados na memoria
@@ -25,10 +25,11 @@ public class DataBase {
     private void loadDataProduct() throws IOException, ClassNotFoundException {
         //VERSÃO DE TESTE
         //FAZER UMA VERSÃO QUE LEIA TODOS OS ARQUIVOS NA PASTA E INCORPORAR NO MAPA
-        ObjectInputStream in = new ObjectInputStream(new FileInputStream("save/product_data/teste.bin"));
-        Product p = (Product) in.readObject();
+        //ObjectInputStream in = new ObjectInputStream(new FileInputStream("save/product_data/teste.bin"));
+        //Product p = (Product) in.readObject();
+        Product p = new Product("sushi", 10, 50.F,null);
         productMap.put(p.getID(), p);
-        in.close();
+        //in.close();
     }
     //SINCRONIZAR
     /* Primeiro verifica se a mesa já esta no mapa.
@@ -53,6 +54,12 @@ public class DataBase {
         return total;
     }
 
+    /* Buscar mesa no mapa*/
+    public Table getTable(Integer tableID) {
+        return tableMap.get(tableID);
+    }
+
+    //SINCRONIZAR
     /* Insere um produto (pedido) na mesa
     ** presume-se que a mesa já esta aberta antes de lançar o produto */
     public void insertProduct(Integer tableID, Integer productID) {
@@ -61,15 +68,9 @@ public class DataBase {
         table.insert(product);
     }
 
+    //SINCRONIZAR
     /* Cancela Produto lançado na mesa */
     public void cancelProduct(Integer tableID, Integer productID) {
 
-    }
-
-    //testing
-    public static void main(String[] args) throws IOException {
-        DataBase d = new DataBase();
-        Product p = d.productMap.get(1010);
-        System.out.println(p.getName());
     }
 }

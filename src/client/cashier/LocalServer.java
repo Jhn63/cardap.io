@@ -6,10 +6,17 @@ import java.net.Socket;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class Server extends Thread{
+public class LocalServer extends Thread{
     private ServerSocket server;
+    private DataBase base;
 
-    public Server() { }
+    public LocalServer() {
+        this.base = new DataBase();
+    }
+
+    public DataBase getBase() {
+        return base;
+    }
 
     @Override
     public void run() {
@@ -18,7 +25,7 @@ public class Server extends Thread{
             ExecutorService e = Executors.newFixedThreadPool(5);
             while (true) {
                 Socket socket = server.accept();
-                ClientConnection connection = new ClientConnection(socket);
+                WaiterConnection connection = new WaiterConnection(socket, base);
                 e.execute(connection);
             }
             //e.shutdown();
@@ -26,8 +33,4 @@ public class Server extends Thread{
         } catch (IOException ignored) {}
     }
 
-    public static void main(String[] args) {
-        Server server = new Server();
-        server.start();
-    }
 }
