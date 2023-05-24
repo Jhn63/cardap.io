@@ -1,6 +1,7 @@
 package client.tools;
 
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 /* Mantem armazenado os pedidos feitos naquela mesa */
@@ -20,11 +21,22 @@ public class Table implements Serializable {
 
     /* Remove um pedido da mesa */
     public void remove(Product product) {
-        //NÃO IMPLEMENTADO!!!!!!!!
+        Iterator it = requests.iterator();
+        while(it.hasNext()) {
+            Product p = (Product) it.next();
+            if (product.equals(p)) {
+                it.remove();
+                break;  //para não remover mais de um produto
+            }
+        }
     }
 
     public int getID() {
         return ID;
+    }
+
+    public LinkedList<Product> getRequests() {
+        return requests;
     }
 
     /* Calcula a montante acumulada dos pedidos */

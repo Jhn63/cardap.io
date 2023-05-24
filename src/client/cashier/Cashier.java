@@ -28,21 +28,29 @@ public class Cashier implements Protocol {
         System.out.println("mesa: " + table.getID() + " aberta");
     }
 
-    public void closeTable() {
-
+    public void closeTable(int tableID) {
+        base.closeTable(tableID);
+        System.out.println("mesa: " + tableID + " fechada");
     }
 
-    public void launchProduct() {
-
+    public void launchProduct(int tableID, int productID) {
+        base.insertProduct(tableID, productID);
+        System.out.println("produto: " + productID + " inserido na mesa: " + tableID);
     }
 
-    public void cancelProduct() {
-
+    public void cancelRequest(int tableID, int productID) {
+        base.cancelProduct(tableID, productID);
+        System.out.println("produto: " + productID + " removido da mesa: " + tableID);
     }
 
     //funções de administração
     public void registerProduct() {
 
+    }
+
+    //outras funções
+    public DataBase getBase() {
+        return base;
     }
 
 }

@@ -23,8 +23,14 @@ public class Product implements Serializable {
     public float getPrice() {
         return price;
     }
+
     public int getID() {
         return ID;
     }
 
+    @Override
+    public boolean equals(Object ob) {
+        Product p = (Product) ob;
+        return this.name.equals(p.name) && this.ID == p.getID();
+    }
 }

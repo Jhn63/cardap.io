@@ -6,36 +6,39 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
-public class RightPanel extends JPanel implements ActionListener, KeyListener {
+public class RightPanel extends JPanel implements ActionListener {
     private Cashier manager;
-
-    private JTextField tableField;
-    private JTextField requestField;
+    private MainFrame frame;
 
     private JButton openButton;
     private JButton closeButton;
     private JButton launchButton;
     private JButton cancelButton;
+    //private JButton registerButton;
 
-    public RightPanel(Cashier manager) {
+    public RightPanel(Cashier manager, MainFrame frame) {
         this.manager = manager;
+        this.frame = frame;
 
         this.setLayout(new BorderLayout());
         this.setOpaque(true);
         this.setBackground(Color.GRAY);
         this.setPreferredSize(new Dimension(600,700));
 
-        this.add(setTextFields(), BorderLayout.WEST);
         this.add(setButtons(), BorderLayout.EAST);
     }
 
     //adicionado botões ao painel
     private JPanel setButtons() {
         JPanel panel = new JPanel(new FlowLayout());
+        panel.setPreferredSize(new Dimension(400,700));
         panel.setOpaque(false);
+
+        //registerButton = new JButton("register");
+        //registerButton.setPreferredSize(new Dimension(85,85));
+        //registerButton.addActionListener(this);
+        //registerButton.setFocusable(false);
 
         openButton = new JButton("open");
         openButton.setPreferredSize(new Dimension(85,85));
@@ -57,6 +60,7 @@ public class RightPanel extends JPanel implements ActionListener, KeyListener {
         cancelButton.addActionListener(this);
         cancelButton.setFocusable(false);
 
+        //panel.add(registerButton);
         panel.add(cancelButton);
         panel.add(launchButton);
         panel.add(closeButton);
@@ -64,53 +68,34 @@ public class RightPanel extends JPanel implements ActionListener, KeyListener {
         return panel;
     }
 
-    //adiconando campos de entrada de texto
-    private JPanel setTextFields() {
-        JPanel panel = new JPanel(new FlowLayout());
-        panel.setOpaque(false);
-
-        tableField = new JTextField();
-        tableField.setEditable(false);
-        tableField.addKeyListener(this);
-        tableField.setPreferredSize(new Dimension(70,40));
-
-        requestField = new JTextField();
-        requestField.setEditable(false);
-        requestField.addKeyListener(this);
-        requestField.setPreferredSize(new Dimension(100,40));
-
-        panel.add(tableField);
-        panel.add(requestField);
-        return panel;
-    }
-
+    //utilizar exceções para tratar operações proibidas
     // tratamento ações dos botões
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == openButton) {
-            tableField.setEditable(true);
+            //precisa de tratamento para null e strings não numericas
+            String table = JOptionPane.showInputDialog("Abrir Mesa");
+            manager.openTable(Integer.parseInt(table));
+            frame.getLeftPanel().printTables();
         }
-    }
+        else if (e.getSource() == closeButton) {
+            String table = JOptionPane.showInputDialog("Fechar Mesa");
+            manager.closeTable(Integer.parseInt(table));
+            frame.getLeftPanel().printTables();
+        }
+        else if (e.getSource() == launchButton) {
+            String table = JOptionPane.showInputDialog("Codigo da Mesa");
+            String request = JOptionPane.showInputDialog("Codigo do Produto");
 
-    @Override
-    public void keyTyped(KeyEvent e) {
+            manager.launchProduct(Integer.parseInt(table), Integer.parseInt(request));
+            frame.getLeftPanel().showTableRequests(Integer.parseInt(table)); //inlegivel
+        }
+        else if (e.getSource() == cancelButton) {
+            String table = JOptionPane.showInputDialog("Codigo da Mesa");
+            String request = JOptionPane.showInputDialog("Codigo do Produto");
 
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
-
-    // tratamento de ações dos campod de texto
-    @Override
-    public void keyReleased(KeyEvent e) {
-        if (e.getKeyCode() == 10) {
-            String tableID = tableField.getText();
-            tableField.setText("");
-            tableField.setEditable(false);
-
-            manager.openTable(Integer.parseInt(tableID));
+            manager.cancelRequest(Integer.parseInt(table), Integer.parseInt(request));
+            frame.getLeftPanel().showTableRequests(Integer.parseInt(table)); //inlegivel
         }
     }
 }

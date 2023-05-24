@@ -22,12 +22,20 @@ public class MainFrame extends JFrame {
         this.setResizable(false);
         this.setSize(1000,700);
 
-        leftPanel = new LeftPanel();
-        rightPanel = new RightPanel(manager);
+        leftPanel = new LeftPanel(manager,this);
+        rightPanel = new RightPanel(manager,this);
 
         this.add(rightPanel,BorderLayout.EAST);
         this.add(leftPanel,BorderLayout.WEST);
         this.setVisible(true);
+    }
+
+    public LeftPanel getLeftPanel() {
+        return leftPanel;
+    }
+
+    public RightPanel getRightPanel() {
+        return rightPanel;
     }
 
 }
